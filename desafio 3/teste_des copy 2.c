@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#define BK 50000
+#define BK 1000
 
 struct Algoritmo 
 {
@@ -11,7 +11,6 @@ struct Algoritmo
     int count_mov;
     float tempo;
 
-    int pos;
     struct Algoritmo *proximo;
 };
 
@@ -21,34 +20,60 @@ struct Bucketss
     int balde[BK];
 };
 
-void listar(struct Algoritmo *no) 
+void SacodeHeap(int m, int *lista1) 
 {
-    while (no != NULL) {
-        printf("|%d| -> ", no -> pos);
-        no = no -> proximo;
+    int z, i = 2;
+    
+    while (i <= m) 
+    {
+        if (i < m && lista1[i] < lista1[i + 1]) {
+            i++;
+        }
+        if (lista1[i/2] >= lista1[i]) {
+            break;
+        }
+        z = lista1[i / 2];
+        lista1[i / 2] = lista1[i];
+        lista1[i] = z;
+        i *= 2;
     }
 }
 
-void criarHeap();
+void inserirHeap(int m, int *lista1)  
+{
+    int i = m + 1;
+
+    while (i > 1 && lista1[i / 2] < lista1[i]) 
+    {
+        int z = lista1[i / 2];
+
+        lista1[i / 2] = lista1[i];
+        lista1[i] = z;
+        i = i / 2;
+    }
+}
 
 void Heap(struct Algoritmo *sexto, int *lista1, int x) 
 {
     FILE *Heap_Test;
     Heap_Test = fopen("C:\\Users\\cauet_ferreira\\Desktop\\heapSort.txt", "w");
 
-    int i, help_hand,
+    int i, help_hand, m, z,
         comp = 0, mov = 0;
     clock_t tempo_exe;
 
     tempo_exe = clock();
-    for (i = (x - 1) / 2; i >= 0; i++) {
-       
+    for (m = 1; m < x; m++) {
+        mov++;
+        inserirHeap(m, lista1);
+        comp++;
     }
-    for (i = x - 1; i >= 1; i--) {
-        help_hand = lista1[0];
-        lista1[0] = lista1[i];
-        lista1[i] = help_hand;
-        
+    for (m = x; m > 1; m--) {
+        mov++;
+        z = lista1[1];
+        lista1[1] = lista1[m];
+        lista1[m] = z;
+        SacodeHeap(m - 1, lista1);
     }
     tempo_exe = clock() - tempo_exe;
 
@@ -69,9 +94,6 @@ void Heap(struct Algoritmo *sexto, int *lista1, int x)
 
     sexto -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     close(Heap_Test);
 }
   
@@ -135,9 +157,6 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
 
     quinto -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     free(help_hand);
     close(Radix_counting);
 }
@@ -201,11 +220,23 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
 
     quarto -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     free(help_hand);
     close(Radix_bucket);
+}
+
+void insertion(int *lista1, int x) 
+{
+    int i, j, aux;
+
+    for (i = 1; i < x; i++) {
+        aux = lista1[i];
+        j = i - 1;
+        while (j >= 0 && lista1[j] > aux) {
+            lista1[j + 1] = lista1[j];
+            j = j - 1;
+        }
+        lista1[j + 1] = aux;
+    }
 }
 
 void Bucket(struct Algoritmo *terceiro, int *lista1, int x) 
@@ -269,26 +300,8 @@ void Bucket(struct Algoritmo *terceiro, int *lista1, int x)
 
     terceiro -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     free(xy);
     close(Bucket_Test);
-}
-
-void insertion(int *lista1, int x) 
-{
-    int i, j, aux;
-
-    for (i = 1; i < x; i++) {
-        aux = lista1[i];
-        j = i - 1;
-        while (j >= 0 && lista1[j] > aux) {
-            lista1[j + 1] = lista1[j];
-            j = j - 1;
-        }
-        lista1[j + 1] = aux;
-    }
 }
 
 void Counting(struct Algoritmo *segundo, int *lista1, int x) 
@@ -357,9 +370,6 @@ void Counting(struct Algoritmo *segundo, int *lista1, int x)
 
     segundo -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     close(Counting_Test);
 }
 
@@ -416,9 +426,13 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
     primeiro -> count_comp = comp;
     primeiro -> count_mov = mov;
 
+    int count = 0;
+
     for (i = 0; i < x; i++) {
         fprintf(Cocktail_Test, "%d|", lista1[i]);
-    }
+        count = count + 1;
+    } 
+    printf("\nNums: %d\n", count);
     
     char teste[100] = "\n\nNome do Algoritmo: Cocktail Sort";
 
@@ -429,9 +443,6 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
 
     primeiro -> nome = teste;
 
-    for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
-    }
     close(Cocktail_Test);
 }
 
@@ -444,17 +455,10 @@ int main()
 
     int *lista1[x];
 
+    srand(time(NULL));
     for (i = 0; i < x; i++) {
         lista1[i] = rand() % x;          //randomiza elementos
     }
-
-            //nós
-    struct Algoritmo *primeiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
-    struct Algoritmo *segundo = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
-    struct Algoritmo *terceiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
-    struct Algoritmo *quarto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
-    struct Algoritmo *quinto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
-    struct Algoritmo *sexto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
 
     while (choice != 0) {
         printf("\n1 - Cocktail Sort\n"
@@ -470,47 +474,47 @@ int main()
         system("cls");
 
         if (choice == 1) {
+            struct Algoritmo *primeiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));   //nó
             Cocktail(primeiro, lista1, x);              //chama função
-            printf("\nOrdenado em Cocktail!\n");
-            primeiro -> pos = 1;
-            primeiro -> proximo = segundo;
+            printf("\nOrdenado em Cocktail!\n");     //notifica se rodou
+            free(primeiro);    //libera a memória alocada
         }
         else if (choice == 2) {
+            struct Algoritmo *segundo = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Counting(segundo, lista1, x);
             printf("\nOrdenado em Counting!\n");
-            segundo -> pos = 2;
-            segundo -> proximo = terceiro;
+            free(segundo);
         }
         else if (choice == 3) {
+            struct Algoritmo *terceiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Bucket(terceiro, lista1, x);
             printf("\nOrdenado em Bucket!\n");
-            terceiro -> pos = 3;
-            terceiro -> proximo = quarto;
+            free(terceiro);
         }
         else if (choice == 4) {
+            struct Algoritmo *quarto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Radix_bucket(quarto, lista1, x);
             printf("\nOrdenado em Radix -> Subalgoritmo: Bucket!\n");
-            quarto -> pos = 4;
-            quarto -> proximo = quinto;
+            free(quarto);
         }
         else if (choice == 5) {
+            struct Algoritmo *quinto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Radix_counting(quinto, lista1, x);
             printf("\nOrdenado em Radix -> Subalgoritmo: Counting!\n");
-            quinto -> pos = 5;
-            quinto -> proximo = sexto;
+            free(quinto);
         }
         else if (choice == 6) {
+            struct Algoritmo *sexto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Heap(sexto, lista1, x);
             printf("\nOrdenado em Heap!\n");
-            sexto -> pos = 6;
-            sexto -> proximo = NULL;
+            free(sexto);
+        }
+        else if (choice == 7) {
+            for (i = 0; i < x; i++) {
+                printf("%d|", lista1[i]);
+            }
         }
     }
-
-    listar(primeiro);
-
-    free(primeiro), (segundo), (terceiro);
-    free(quarto), (quinto), (sexto);
 
     return 0;
 }
