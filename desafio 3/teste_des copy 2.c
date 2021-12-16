@@ -139,6 +139,7 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
         mov++;
     }
     tempo_exe = clock() - tempo_exe;
+    free(help_hand);
 
     quinto -> tempo = ((double)tempo_exe)/(CLOCKS_PER_SEC/1000);
     quinto -> count_comp = comp;
@@ -157,7 +158,6 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
 
     quinto -> nome = teste;
 
-    free(help_hand);
     close(Radix_counting);
 }
 
@@ -202,6 +202,7 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
         j *= BK;
     }
     tempo_exe = clock() - tempo_exe;
+    free(help_hand);
 
     quarto -> tempo = ((double)tempo_exe)/(CLOCKS_PER_SEC/1000);
     quarto -> count_comp = comp;
@@ -220,7 +221,6 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
 
     quarto -> nome = teste;
 
-    free(help_hand);
     close(Radix_bucket);
 }
 
@@ -457,7 +457,7 @@ int main()
 
     srand(time(NULL));
     for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x;          //randomiza elementos
+        lista1[i] = rand() % x * x/RAND_MAX;          //randomiza elementos
     }
 
     while (choice != 0) {
