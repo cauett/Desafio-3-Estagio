@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#define BK 1000
+#define BK 50000
 
 struct Algoritmo 
 {
@@ -10,7 +10,7 @@ struct Algoritmo
     int count_comp;
     int count_mov;
     float tempo;
-
+    
     struct Algoritmo *proximo;
 };
 
@@ -19,6 +19,111 @@ struct Bucketss
     int qtd;
     int balde[BK];
 };
+
+void Comparacoes(struct Algoritmo *primeiro, struct Algoritmo *segundo, struct Algoritmo *terceiro,
+                 struct Algoritmo *quarto, struct Algoritmo *quinto, struct Algoritmo *sexto)
+{
+    FILE *Best;
+    Best = fopen("C:\\Users\\cauet_ferreira\\Desktop\\melhorAlgoritmo.txt", "w");
+
+    //Comparações
+    if (primeiro -> count_comp < segundo -> count_comp && primeiro -> count_comp < terceiro -> count_comp &&
+        primeiro -> count_comp < quarto -> count_comp && primeiro -> count_comp < quinto -> count_comp &&
+        primeiro -> count_comp < sexto -> count_comp) {
+        fprintf(Best, "Cocktail é o melhor em comparações!\n");
+    }
+    else if (segundo -> count_comp < primeiro -> count_comp && segundo -> count_comp < terceiro -> count_comp &&
+        segundo -> count_comp < quarto -> count_comp && segundo -> count_comp < quinto -> count_comp &&
+        segundo -> count_comp < sexto -> count_comp) {
+        fprintf(Best, "Counting é o melhor em comparações!\n");
+    }
+    else if (terceiro -> count_comp < primeiro -> count_comp && terceiro -> count_comp < segundo -> count_comp &&
+        terceiro -> count_comp < quarto -> count_comp && terceiro -> count_comp < quinto -> count_comp &&
+        terceiro -> count_comp < sexto -> count_comp) {
+        fprintf(Best, "Bucket é o melhor em comparações!\n");
+    }
+    else if (quarto -> count_comp < primeiro -> count_comp && quarto -> count_comp < segundo -> count_comp &&
+        quarto -> count_comp < terceiro -> count_comp && quarto -> count_comp < quinto -> count_comp &&
+        quarto -> count_comp < sexto -> count_comp) {
+        fprintf(Best, "Radix_Bucket é o melhor em comparações!\n");
+    }
+    else if (quinto -> count_comp < primeiro -> count_comp && quinto -> count_comp < segundo -> count_comp &&
+        quinto -> count_comp < terceiro -> count_comp && quinto -> count_comp < quarto -> count_comp &&
+        quinto -> count_comp < sexto -> count_comp) {
+        fprintf(Best, "Radix_Counting é o melhor em comparações!\n");
+    }
+    else if (sexto -> count_comp < primeiro -> count_comp && sexto -> count_comp < segundo -> count_comp &&
+        sexto -> count_comp < terceiro -> count_comp && sexto -> count_comp < quarto -> count_comp &&
+        sexto -> count_comp < quinto -> count_comp) {
+        fprintf(Best, "Heap é o melhor em comparações!\n");
+    }
+    
+    //Movimentos
+    if (primeiro -> count_mov < segundo -> count_mov && primeiro -> count_mov < terceiro -> count_mov &&
+        primeiro -> count_mov < quarto -> count_mov && primeiro -> count_mov < quinto -> count_mov &&
+        primeiro -> count_mov < sexto -> count_mov) {
+        fprintf(Best, "Cocktail é melhor em movimentação!\n");
+    }
+    else if (segundo -> count_mov < primeiro -> count_mov && segundo -> count_mov < terceiro -> count_mov &&
+        segundo -> count_mov < quarto -> count_mov && segundo -> count_mov < quinto -> count_mov &&
+        segundo -> count_mov < sexto -> count_mov) {
+        fprintf(Best, "Counting é o melhor em movimentação!\n");
+    }
+    else if (terceiro -> count_mov < primeiro -> count_mov && terceiro -> count_mov < segundo -> count_mov &&
+        terceiro -> count_mov < quarto -> count_mov && terceiro -> count_mov < quinto -> count_mov &&
+        terceiro -> count_mov < sexto -> count_mov) {
+        fprintf(Best, "Bucket é o melhor em movimentação!\n");
+    }
+    else if (quarto -> count_mov < primeiro -> count_mov && quarto -> count_mov < segundo -> count_mov &&
+        quarto -> count_mov < terceiro -> count_mov && quarto -> count_mov < quinto -> count_mov &&
+        quarto -> count_mov < sexto -> count_mov) {
+        fprintf(Best, "Radix_Bucket é o melhor em movimentação!\n");
+    }
+    else if (quinto -> count_mov < primeiro -> count_mov && quinto -> count_mov < segundo -> count_mov &&
+        quinto -> count_mov < terceiro -> count_mov && quinto -> count_mov < quarto -> count_mov &&
+        quinto -> count_mov < sexto -> count_mov) {
+        fprintf(Best, "Radix_Counting é o melhor em movimentação!\n");
+    }
+    else if (sexto -> count_mov < primeiro -> count_mov && sexto -> count_mov < segundo -> count_mov &&
+        sexto -> count_mov < terceiro -> count_mov && sexto -> count_mov < quarto -> count_mov &&
+        sexto -> count_mov < quinto -> count_mov) {
+        fprintf(Best, "Heap é o melhor em movimentação!\n");
+    }
+
+    //Tempo de execução
+    if (primeiro -> tempo < segundo -> tempo && primeiro -> tempo < terceiro -> tempo &&
+        primeiro -> tempo < quarto -> tempo && primeiro -> tempo < quinto -> tempo &&
+        primeiro -> tempo < sexto -> tempo) {
+        fprintf(Best, "Cocktail é melhor em tempo de execução!\n");
+    }
+    else if (segundo -> tempo < primeiro -> tempo && segundo -> tempo < terceiro -> tempo &&
+        segundo -> tempo < quarto -> tempo && segundo -> tempo < quinto -> tempo &&
+        segundo -> tempo < sexto -> tempo) {
+        fprintf(Best, "Counting é o melhor em tempo de execução!\n");
+    }
+    else if (terceiro -> tempo < primeiro -> tempo && terceiro -> tempo < segundo -> tempo &&
+        terceiro -> tempo < quarto -> tempo && terceiro -> tempo < quinto -> tempo &&
+        terceiro -> tempo < sexto -> tempo) {
+        fprintf(Best, "Bucket é o melhor em tempo de execução!\n");
+    }
+    else if (quarto -> tempo < primeiro -> tempo && quarto -> tempo < segundo -> tempo &&
+        quarto -> tempo < terceiro -> tempo && quarto -> tempo < quinto -> tempo &&
+        quarto -> tempo < sexto -> tempo) {
+        fprintf(Best, "Radix_Bucket é o melhor em tempo de execução!\n");
+    }
+    else if (quinto -> tempo < primeiro -> tempo && quinto -> tempo < segundo -> tempo &&
+        quinto -> tempo < terceiro -> tempo && quinto -> tempo < quarto -> tempo &&
+        quinto -> tempo < sexto -> tempo) {
+        fprintf(Best, "Radix_Counting é o melhor em tempo de execução!\n");
+    }
+    else if (sexto -> tempo < primeiro -> tempo && sexto -> tempo < segundo -> tempo &&
+        sexto -> tempo < terceiro -> tempo && sexto -> tempo < quarto -> tempo &&
+        sexto -> tempo < quinto -> tempo) {
+        fprintf(Best, "Heap é o melhor em tempo de execução!\n");
+    }
+
+    close(Best);
+}
 
 void SacodeHeap(int m, int *lista1) 
 {
@@ -397,12 +502,9 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
                 lista1[i + 1] = help_hand;
 
                 verif_back = 0;
-
-                comp++;
+                mov++;
             }
-            mov++;
         }
-
         tam -= 1;
     
         for (i = tam; i > 0; i--) 
@@ -414,11 +516,10 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
                 lista1[i - 1] = help_hand;
 
                 verif_back = 0;
-
-                comp++;
+                mov++;
             }
-            mov++;
         }
+        comp++;
     }
     tempo_exe = clock() - tempo_exe;
 
@@ -430,10 +531,8 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
 
     for (i = 0; i < x; i++) {
         fprintf(Cocktail_Test, "%d|", lista1[i]);
-        count = count + 1;
     } 
-    printf("\nNums: %d\n", count);
-    
+
     char teste[100] = "\n\nNome do Algoritmo: Cocktail Sort";
 
     fwrite(teste, 1, strlen(teste), Cocktail_Test);
@@ -448,6 +547,13 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
 
 int main() 
 {
+    struct Algoritmo *primeiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));   //nós
+    struct Algoritmo *segundo = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
+    struct Algoritmo *terceiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
+    struct Algoritmo *quarto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
+    struct Algoritmo *quinto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
+    struct Algoritmo *sexto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
+
     int i, x, choice;
     printf("Qual o tamanho do vetor? \n");
     scanf("%d", &x);             //recebe tamanho do vetor
@@ -457,7 +563,7 @@ int main()
 
     srand(time(NULL));
     for (i = 0; i < x; i++) {
-        lista1[i] = rand() % x * x/RAND_MAX;          //randomiza elementos
+        lista1[i] = rand() % x * x/RAND_MAX;          //pseudorandomiza elementos
     }
 
     while (choice != 0) {
@@ -474,40 +580,28 @@ int main()
         system("cls");
 
         if (choice == 1) {
-            struct Algoritmo *primeiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));   //nó
             Cocktail(primeiro, lista1, x);              //chama função
             printf("\nOrdenado em Cocktail!\n");     //notifica se rodou
-            free(primeiro);    //libera a memória alocada
         }
         else if (choice == 2) {
-            struct Algoritmo *segundo = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Counting(segundo, lista1, x);
             printf("\nOrdenado em Counting!\n");
-            free(segundo);
         }
         else if (choice == 3) {
-            struct Algoritmo *terceiro = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Bucket(terceiro, lista1, x);
             printf("\nOrdenado em Bucket!\n");
-            free(terceiro);
         }
         else if (choice == 4) {
-            struct Algoritmo *quarto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Radix_bucket(quarto, lista1, x);
             printf("\nOrdenado em Radix -> Subalgoritmo: Bucket!\n");
-            free(quarto);
         }
         else if (choice == 5) {
-            struct Algoritmo *quinto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Radix_counting(quinto, lista1, x);
             printf("\nOrdenado em Radix -> Subalgoritmo: Counting!\n");
-            free(quinto);
         }
         else if (choice == 6) {
-            struct Algoritmo *sexto = (struct Algoritmo*) malloc(sizeof(struct Algoritmo));
             Heap(sexto, lista1, x);
             printf("\nOrdenado em Heap!\n");
-            free(sexto);
         }
         else if (choice == 7) {
             for (i = 0; i < x; i++) {
@@ -515,6 +609,11 @@ int main()
             }
         }
     }
+
+    Comparacoes(primeiro, segundo, terceiro, quarto, quinto, sexto);
+
+    free(primeiro), (segundo), (terceiro);
+    free(quarto), (quinto), (sexto);
 
     return 0;
 }
