@@ -125,35 +125,35 @@ void Comparacoes(struct Algoritmo *primeiro, struct Algoritmo *segundo, struct A
     close(Best);
 }
 
-void SacodeHeap(int m, int *lista1) 
+void SacodeHeap(int m, int *lista7) 
 {
     int z, i = 2;
     
     while (i <= m) 
     {
-        if (i < m && lista1[i] < lista1[i + 1]) {
+        if (i < m && lista7[i] < lista7[i + 1]) {
             i++;
         }
-        if (lista1[i/2] >= lista1[i]) {
+        if (lista7[i/2] >= lista7[i]) {
             break;
         }
-        z = lista1[i / 2];
-        lista1[i / 2] = lista1[i];
-        lista1[i] = z;
+        z = lista7[i / 2];
+        lista7[i / 2] = lista7[i];
+        lista7[i] = z;
         i *= 2;
     }
 }
 
-void inserirHeap(int m, int *lista1)  
+void inserirHeap(int m, int *lista7)  
 {
     int i = m + 1;
 
-    while (i > 1 && lista1[i / 2] < lista1[i]) 
+    while (i > 1 && lista7[i / 2] < lista7[i]) 
     {
-        int z = lista1[i / 2];
+        int z = lista7[i / 2];
 
-        lista1[i / 2] = lista1[i];
-        lista1[i] = z;
+        lista7[i / 2] = lista7[i];
+        lista7[i] = z;
         i = i / 2;
     }
 }
@@ -163,22 +163,26 @@ void Heap(struct Algoritmo *sexto, int *lista1, int x)
     FILE *Heap_Test;
     Heap_Test = fopen("C:\\Users\\cauet_ferreira\\Desktop\\heapSort.txt", "w");
 
-    int i, help_hand, m, z,
+    int i, help_hand, m, z, lista7[x],
         comp = 0, mov = 0;
     clock_t tempo_exe;
+
+    for (i = 0; i < x; i++) {
+        lista7[i] = lista1[i];
+    }
 
     tempo_exe = clock();
     for (m = 1; m < x; m++) {
         mov++;
-        inserirHeap(m, lista1);
+        inserirHeap(m, lista7);
         comp++;
     }
     for (m = x; m > 1; m--) {
         mov++;
-        z = lista1[1];
-        lista1[1] = lista1[m];
-        lista1[m] = z;
-        SacodeHeap(m - 1, lista1);
+        z = lista7[1];
+        lista7[1] = lista7[m];
+        lista7[m] = z;
+        SacodeHeap(m - 1, lista7);
     }
     tempo_exe = clock() - tempo_exe;
 
@@ -187,7 +191,7 @@ void Heap(struct Algoritmo *sexto, int *lista1, int x)
     sexto -> count_mov = mov;
 
     for (i = 0; i < x; i++) {
-        fprintf(Heap_Test, "%d|", lista1[i]);
+        fprintf(Heap_Test, "%d|", lista7[i]);
     }
     
     char teste[100] = "\n\nNome do Algoritmo: Heap Sort";
@@ -207,17 +211,21 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
     FILE *Radix_counting;
     Radix_counting = fopen("C:\\Users\\cauet_ferreira\\Desktop\\radixCounting.txt", "w");
 
-    int i, j = 1, *help_hand,
-        maior = lista1[0],
+    int i, j = 1, *help_hand, lista6[x],
+        maior = lista6[0],
         comp = 0, mov = 0;
     clock_t tempo_exe;
+
+    for (i = 0; i < x; i++) {
+        lista6[i] = lista1[i];
+    }
 
     help_hand = (int *) calloc(x, sizeof(int));
     
     tempo_exe = clock();
     for (i = 0; i < x; i++) {
-        if (lista1[i] > maior) {
-            maior = lista1[i];
+        if (lista6[i] > maior) {
+            maior = lista6[i];
             comp++;
         }
     }
@@ -228,7 +236,7 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
         mov++;
     }
     for (i = 0; i < x; i++) {
-        count[lista1[i]]++;          //estoca numeros
+        count[lista6[i]]++;          //estoca numeros
         mov++;
     }
     for (i = 1; i <= maior; i++) {
@@ -236,11 +244,11 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
         mov++;
     }
     for (i = x - 1; i >= 0; i--) {
-        help_hand[--count[lista1[i]]] = lista1[i];      //ordena tudo
+        help_hand[--count[lista6[i]]] = lista6[i];      //ordena tudo
         mov++;
     }
     for (i = 0; i < x; i++) {
-        lista1[i] = help_hand[i];        //envia ordenado para o array original
+        lista6[i] = help_hand[i];        //envia ordenado para o array original
         mov++;
     }
     tempo_exe = clock() - tempo_exe;
@@ -251,7 +259,7 @@ void Radix_counting(struct Algoritmo *quinto, int *lista1, int x)
     quinto -> count_mov = mov;
 
     for (i = 0; i < x; i++) {
-        fprintf(Radix_counting, "%d|", lista1[i]);
+        fprintf(Radix_counting, "%d|", lista6[i]);
     }
     
     char teste[100] = "\n\nNome do Algoritmo: Radix Sort -> Subalgoritmo: Counting";
@@ -271,17 +279,21 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
     FILE *Radix_bucket;
     Radix_bucket = fopen("C:\\Users\\cauet_ferreira\\Desktop\\radixBucket.txt", "w");
 
-    int i, j = 1, *help_hand,
-        maior = lista1[0],
+    int i, j = 1, *help_hand, lista5[x],
+        maior = lista5[0],
         comp = 0, mov = 0;
     clock_t tempo_exe;
+
+    for (i = 0; i < x; i++) {
+        lista5[i] = lista1[i];
+    }
 
     help_hand = (int *) calloc(x, sizeof(int));
     
     tempo_exe = clock();
     for (i = 0; i < x; i++) {
-        if (lista1[i] > maior) {
-            maior = lista1[i];
+        if (lista5[i] > maior) {
+            maior = lista5[i];
             comp++;
         }
     }
@@ -289,7 +301,7 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
         int bucket[BK] = {0};
 
         for (i = 0; i < x; i++) {
-            bucket[(lista1[i] / j) % BK]++;
+            bucket[(lista5[i] / j) % BK]++;
             mov++;
         } 
         for (i = 1; i < BK; i++) {
@@ -297,11 +309,11 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
             mov++;
         }
         for (i = x - 1; i >= 0; i--) {
-            help_hand[--bucket[(lista1[i] / j) % BK]] = lista1[i];
+            help_hand[--bucket[(lista5[i] / j) % BK]] = lista5[i];
             mov++;
         }
         for (i = 0; i < x; i++) {
-            lista1[i] = help_hand[i];
+            lista5[i] = help_hand[i];
             mov++;
         }
         j *= BK;
@@ -314,7 +326,7 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
     quarto -> count_mov = mov;
 
     for (i = 0; i < x; i++) {
-        fprintf(Radix_bucket, "%d|", lista1[i]);
+        fprintf(Radix_bucket, "%d|", lista5[i]);
     }
     
     char teste[100] = "\n\nNome do Algoritmo: Radix Sort -> Subalgoritmo: Bucket";
@@ -329,18 +341,18 @@ void Radix_bucket(struct Algoritmo *quarto, int *lista1, int x)
     close(Radix_bucket);
 }
 
-void insertion(int *lista1, int x) 
+void insertion(int *lista4, int x) 
 {
     int i, j, aux;
 
     for (i = 1; i < x; i++) {
-        aux = lista1[i];
+        aux = lista4[i];
         j = i - 1;
-        while (j >= 0 && lista1[j] > aux) {
-            lista1[j + 1] = lista1[j];
+        while (j >= 0 && lista4[j] > aux) {
+            lista4[j + 1] = lista4[j];
             j = j - 1;
         }
-        lista1[j + 1] = aux;
+        lista4[j + 1] = aux;
     }
 }
 
@@ -349,17 +361,21 @@ void Bucket(struct Algoritmo *terceiro, int *lista1, int x)
     FILE *Bucket_Test;
     Bucket_Test = fopen("C:\\Users\\cauet_ferreira\\Desktop\\bucket.txt", "w");
 
-    int i, j, maior, menor, numBaldes, count, 
+    int i, j, maior, menor, numBaldes, count, lista4[x],
         comp = 0, mov = 0;
     clock_t tempo_exe;
     struct Bucketss *xy;
 
-    maior = menor = lista1[0]; 
+    for (i = 0; i < x; i++) {
+        lista4[i] = lista1[i];
+    }
+
+    maior = menor = lista4[0]; 
 
     tempo_exe = clock();
     for (i = 1; i < x; i++) {
-        if (lista1[i] > maior) { maior = lista1[i]; comp++;}
-        if (lista1[i] < menor) { menor = lista1[i]; comp++;}
+        if (lista4[i] > maior) { maior = lista4[i]; comp++;}
+        if (lista4[i] < menor) { menor = lista4[i]; comp++;}
         mov++;
     }
 
@@ -371,8 +387,8 @@ void Bucket(struct Algoritmo *terceiro, int *lista1, int x)
     }
 
     for (i = 0; i < x; i++) {
-        count = (lista1[i] - menor) / BK;
-        xy[count].balde[xy[count].qtd] = lista1[i];
+        count = (lista4[i] - menor) / BK;
+        xy[count].balde[xy[count].qtd] = lista4[i];
         xy[count].qtd++;
         mov++;
     }
@@ -381,7 +397,7 @@ void Bucket(struct Algoritmo *terceiro, int *lista1, int x)
     for (i = 0; i < numBaldes; i++) {
         insertion(xy[i].balde, xy[i].qtd);
         for (j = 0; j < xy[i].qtd; j++) {
-            lista1[count] = xy[i].balde[j];
+            lista4[count] = xy[i].balde[j];
             count++;
         }
         mov++;
@@ -393,7 +409,7 @@ void Bucket(struct Algoritmo *terceiro, int *lista1, int x)
     terceiro -> count_mov = mov;
 
     for (i = 0; i < x; i++) {
-        fprintf(Bucket_Test, "%d|", lista1[i]);
+        fprintf(Bucket_Test, "%d|", lista4[i]);
     }
     
     char teste[100] = "\n\nNome do Algoritmo: Bucket Sort";
@@ -415,15 +431,19 @@ void Counting(struct Algoritmo *segundo, int *lista1, int x)
     Counting_Test = fopen("C:\\Users\\cauet_ferreira\\Desktop\\counting.txt", "w");
 
     int i, max = lista1[0],
-        help_hand[x], comp = 0, mov = 0;
+        help_hand[x], comp = 0, mov = 0, lista3[x];
     clock_t tempo_exe;
+
+    for (i = 0; i < x; i++) {
+        lista3[i] = lista1[i];
+    }
     
     tempo_exe = clock();
     for (i = 1; i < x; i++) 
     {
-        if (lista1[i] > max)         //encontra o maior elemento
+        if (lista3[i] > max)         //encontra o maior elemento
         {
-            max = lista1[i];
+            max = lista3[i];
             comp++;
             mov++;
         }
@@ -438,7 +458,7 @@ void Counting(struct Algoritmo *segundo, int *lista1, int x)
     }
     for (i = 0; i < x; i++) 
     {
-        count[lista1[i]]++;          //estoca numeros
+        count[lista3[i]]++;          //estoca numeros
         mov++;
     }
     for (i = 1; i <= max; i++) 
@@ -448,12 +468,12 @@ void Counting(struct Algoritmo *segundo, int *lista1, int x)
     }
     for (i = x - 1; i >= 0; i--) 
     {
-        help_hand[--count[lista1[i]]] = lista1[i];      //ordena tudo
+        help_hand[--count[lista3[i]]] = lista3[i];      //ordena tudo
         mov++;
     }
     for (i = 0; i < x; i++) 
     {
-        lista1[i] = help_hand[i];        //envia ordenado para o array original
+        lista3[i] = help_hand[i];        //envia ordenado para o array original
         mov++;
     }
     tempo_exe = clock() - tempo_exe;
@@ -463,7 +483,7 @@ void Counting(struct Algoritmo *segundo, int *lista1, int x)
     segundo -> count_mov = mov;
 
     for (i = 0; i < x; i++) {
-        fprintf(Counting_Test, "%d|", lista1[i]);
+        fprintf(Counting_Test, "%d|", lista3[i]);
     }
 
     char teste[100] = "\n\nNome do Algoritmo: Counting Sort";
@@ -483,10 +503,14 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
     FILE *Cocktail_Test;
     Cocktail_Test = fopen("C:\\Users\\cauet_ferreira\\Desktop\\cocktail.txt", "w");
 
-    int i, help_hand, tam = x - 1, 
+    int i, help_hand, tam = x - 1, lista2[x],
         verif = 0, verif_back = 0,
         comp = 0, mov = 0;
     clock_t tempo_exe;
+
+    for (i = 0; i < x; i++) {
+        lista2[i] = lista1[i];
+    }
 
     tempo_exe = clock();
     while(verif == 0 && verif_back < tam) 
@@ -495,11 +519,11 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
 
         for (i = 0; i < tam; i++) 
         {
-            if (lista1[i] > lista1[i + 1])          //analisa da direita
+            if (lista2[i] > lista2[i + 1])          //analisa da direita
             {
-                help_hand = lista1[i];
-                lista1[i] = lista1[i + 1];
-                lista1[i + 1] = help_hand;
+                help_hand = lista2[i];
+                lista2[i] = lista2[i + 1];
+                lista2[i + 1] = help_hand;
 
                 verif_back = 0;
                 mov++;
@@ -509,11 +533,11 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
     
         for (i = tam; i > 0; i--) 
         {
-            if (lista1[i] < lista1[i - 1])        //analisa da esquerda
+            if (lista2[i] < lista2[i - 1])        //analisa da esquerda
             {
-                help_hand = lista1[i];
-                lista1[i] = lista1[i - 1];
-                lista1[i - 1] = help_hand;
+                help_hand = lista2[i];
+                lista2[i] = lista2[i - 1];
+                lista2[i - 1] = help_hand;
 
                 verif_back = 0;
                 mov++;
@@ -527,10 +551,8 @@ void Cocktail(struct Algoritmo *primeiro, int *lista1, int x)
     primeiro -> count_comp = comp;
     primeiro -> count_mov = mov;
 
-    int count = 0;
-
     for (i = 0; i < x; i++) {
-        fprintf(Cocktail_Test, "%d|", lista1[i]);
+        fprintf(Cocktail_Test, "%d|", lista2[i]);
     } 
 
     char teste[100] = "\n\nNome do Algoritmo: Cocktail Sort";
